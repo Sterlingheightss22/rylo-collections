@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <title>RYLO Collection — Kumasi's Premium Streetwear</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -302,22 +301,129 @@ footer::before{content:'';position:absolute;top:0;left:3rem;right:3rem;height:1p
 @media(max-width:1000px){
   .hero{grid-template-columns:1fr;min-height:auto;background:linear-gradient(170deg,var(--white) 50%,var(--forest) 100%)}
   .hero::after{display:none}
-  .hero-left{padding:5rem 2rem;min-height:60vh}
-  .hero-right{padding:3rem 2rem;min-height:40vh}
+  .hero-left{padding:5rem 2rem 2rem;min-height:auto}
+  .hero-right{padding:2rem;min-height:auto}
   .cats-grid{grid-template-columns:repeat(3,1fr)}
   .about-inner{grid-template-columns:1fr;gap:4rem}
   .footer-grid{grid-template-columns:1fr 1fr;gap:3rem}
-  .cats-section,.products-inner,.reviews-inner,.about-inner{padding:0 2rem}
+  .cats-section,.products-inner,.reviews-inner{padding:0 1.5rem}
   nav{padding:0 1.5rem}
 }
+
 @media(max-width:600px){
-  nav{height:70px}
-  .cats-grid{grid-template-columns:repeat(2,1fr)}
-  .footer-grid{grid-template-columns:1fr}
-  .products-section,.cats-section,.reviews-section,.about-section{padding-left:1.5rem;padding-right:1.5rem}
-  .philosophy{padding:3rem 1.5rem}
-  .hero-left{padding:4rem 1.5rem}
-  .hero-right{padding:2.5rem 1.5rem}
+  /* NAV */
+  nav{height:64px;padding:0 1rem}
+  .logo-rylo{font-size:22px;letter-spacing:4px}
+  .logo-sub{font-size:6px;letter-spacing:4px}
+  .cart-pill{padding:8px 14px;font-size:9px}
+  .menu-trigger{font-size:10px;gap:6px}
+
+  /* HERO — single unified section, compact */
+  .hero{
+    grid-template-columns:1fr;
+    min-height:100svh;
+    background:linear-gradient(160deg,var(--white) 45%,var(--forest) 100%);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .hero-left{
+    padding:3rem 1.5rem 1.5rem;
+    min-height:auto;
+    flex:0 0 auto;
+  }
+  .hero-h1{font-size:52px;line-height:1}
+  .hero-eyebrow{margin-bottom:1.2rem}
+  .hero-rule{margin:1.2rem 0;width:60px}
+  .hero-sub{font-size:15px;margin-bottom:1.8rem}
+  .hero-btns{gap:10px}
+  .btn-royal,.btn-outline{padding:13px 24px;font-size:9px;letter-spacing:3px}
+
+  /* HERO RIGHT — compact featured cards */
+  .hero-right{
+    padding:1rem 1.5rem 2.5rem;
+    gap:10px;
+    flex:0 0 auto;
+  }
+  .hero-right-label{font-size:8px;margin-bottom:4px}
+  .feat-card{padding:0.9rem 1rem}
+  .feat-img{width:44px;height:55px}
+  .feat-name{font-size:12px}
+  .feat-price{font-size:11px}
+  .feat-badge{font-size:7px;padding:2px 6px}
+
+  /* MARQUEE */
+  .marquee-wrap{padding:10px 0}
+  .marquee-inner span{font-size:20px;padding:0 1.5rem}
+
+  /* CATEGORIES — compact 3x2 grid */
+  .cats-section{padding:2.5rem 1.5rem}
+  .cats-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  .cat-tile{
+    aspect-ratio:1/1;
+    padding:1rem 0.5rem;
+  }
+  .cat-emoji{font-size:26px;margin-bottom:0.5rem}
+  .cat-tile-name{font-size:8px;letter-spacing:2px}
+  .sec-title{font-size:26px}
+  .sec-header{margin-bottom:1.5rem;padding-bottom:1rem}
+
+  /* PRODUCTS — 2 per row like Amazon */
+  .products-section{padding:2.5rem 1rem}
+  .products-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+  .p-img-wrap{}
+  .p-img{aspect-ratio:3/4}
+  .p-info{padding:0.8rem 0 0}
+  .p-brand{font-size:8px;letter-spacing:2px}
+  .p-name{font-size:13px;margin-bottom:6px}
+  .p-price{font-size:13px}
+  .p-add-btn{font-size:8px;letter-spacing:2px;padding:11px}
+  .p-badge{font-size:7px;padding:3px 8px;top:8px;left:8px}
+
+  /* FILTERS — scrollable row */
+  .filters{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:6px;
+    margin-bottom:1.5rem;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .filters::-webkit-scrollbar{display:none}
+  .filter-btn{white-space:nowrap;padding:8px 14px;font-size:8px;flex-shrink:0}
+
+  /* REVIEWS */
+  .reviews-section{padding:3rem 1.5rem}
+  .reviews-grid{grid-template-columns:1fr;gap:1.2rem}
+  .review-card{padding:1.8rem}
+  .review-quote{font-size:14px}
+
+  /* ABOUT */
+  .about-section{padding:4rem 1.5rem}
+  .about-inner{grid-template-columns:1fr;gap:3rem;padding:0}
+  .about-title{font-size:36px}
+  .about-body{font-size:15px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-box{padding:2rem 1.5rem}
+  .stat-num{font-size:42px}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr;gap:2.5rem}
+  footer{padding:3.5rem 1.5rem 2rem}
+  .footer-bottom{flex-direction:column;text-align:center;gap:0.5rem}
+
+  /* CART PANEL */
+  .cart-panel{width:100vw}
+  .cart-head{padding:1.5rem}
+  .cart-body{padding:1rem 1.5rem}
+  .cart-foot{padding:1.5rem}
 }
 </style>
 </head>
