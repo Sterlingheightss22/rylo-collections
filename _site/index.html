@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RYLO Collection — Kumasi's Premium Streetwear</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#181410;
+  --white:#faf8f3;
+  --cream:#f3efe6;
+  --parchment:#ede8dc;
+  --gold:#C9A84C;
+  --gold-light:#e8cc7a;
+  --gold-dark:#9a7a30;
+  --forest:#243d2e;
+  --forest-mid:#2d4c3b;
+  --forest-light:#3a6b52;
+  --text:#1e1a14;
+  --muted:#8a8278;
+  --border:#ddd9ce;
+  --border-light:#eae6dc;
+}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--text);font-family:'Montserrat',sans-serif;overflow-x:hidden;cursor:none}
+
+/* CUSTOM CURSOR */
+.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.1s,width 0.3s,height 0.3s,background 0.3s;mix-blend-mode:multiply}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.15s ease-out,width 0.3s,height 0.3s,opacity 0.3s;opacity:0.6}
+body:hover .cursor{opacity:1}
+
+/* ADINKRA PATTERN — subtle background texture */
+.adinkra-bg{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.022;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23C9A84C' stroke-width='1'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3Ccircle cx='30' cy='30' r='12'/%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3Cline x1='10' y1='30' x2='50' y2='30'/%3E%3Cline x1='30' y1='10' x2='30' y2='50'/%3E%3C/g%3E%3C/svg%3E");background-size:60px 60px}
+
+/* ANNOUNCEMENT */
+.announce{position:relative;z-index:10;background:var(--forest);color:var(--white);text-align:center;padding:11px 2rem;font-size:10px;letter-spacing:4px;text-transform:uppercase;font-weight:600;font-family:'Space Mono',monospace}
+.announce em{color:var(--gold);font-style:normal}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(250,248,243,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);padding:0 3rem;display:flex;align-items:center;justify-content:space-between;height:84px;transition:height 0.4s}
+nav.scrolled{height:68px;box-shadow:0 4px 32px rgba(36,61,46,0.08)}
+
+/* LOGO */
+.logo-wrap{display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;gap:0;text-decoration:none;position:relative}
+.logo-rylo{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;color:var(--black);line-height:1;letter-spacing:6px;position:relative;display:inline-block}
+.crown-svg{position:absolute;top:-16px;left:-3px;width:22px;height:22px;fill:var(--gold)}
+.logo-sub{font-family:'Space Mono',monospace;font-size:7.5px;font-weight:700;letter-spacing:6px;color:var(--gold);text-transform:uppercase;padding-left:2px;margin-top:5px}
+
+.nav-right{display:flex;align-items:center;gap:2rem}
+.menu-trigger{display:flex;align-items:center;gap:10px;background:none;border:none;cursor:none;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--black);padding:0;transition:color 0.3s}
+.menu-trigger:hover{color:var(--gold)}
+.menu-trigger .bar{display:flex;flex-direction:column;gap:4px}
+.menu-trigger .bar span{width:20px;height:1.5px;background:currentColor;transition:all 0.3s;display:block}
+.cart-pill{background:var(--black);color:var(--white);border:none;padding:12px 26px;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:none;display:flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;transition:all 0.4s}
+.cart-pill:hover{background:var(--forest)}
+.cart-bubble{background:var(--gold);color:var(--black);border-radius:50%;width:20px;height:20px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
+
+/* MEGA MENU */
+.menu-overlay{position:fixed;inset:0;background:rgba(24,20,16,0.65);backdrop-filter:blur(6px);z-index:200;opacity:0;pointer-events:none;transition:opacity 0.4s}
+.menu-overlay.open{opacity:1;pointer-events:all}
+.mega-menu{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:var(--white);z-index:201;transform:translateX(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden}
+.mega-menu.open{transform:translateX(0)}
+.menu-head{padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-light);position:sticky;top:0;background:var(--white);z-index:10}
+.menu-close{background:none;border:1px solid var(--border);width:42px;height:42px;border-radius:50%;cursor:none;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;color:var(--text)}
+.menu-close:hover{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.menu-sec{padding:2rem 2.5rem}
+.menu-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:1.2rem}
+.menu-links{display:flex;flex-direction:column}
+.menu-link{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border-light);font-family:'Playfair Display',serif;font-size:26px;font-weight:400;cursor:none;transition:all 0.3s;text-decoration:none;color:var(--text);position:relative;overflow:hidden}
+.menu-link::before{content:'';position:absolute;left:0;top:0;bottom:0;width:0;background:var(--gold);opacity:0.08;transition:width 0.3s}
+.menu-link:hover::before{width:100%}
+.menu-link:hover{color:var(--gold);padding-left:12px}
+.menu-link svg{opacity:0;transition:opacity 0.3s;color:var(--gold)}
+.menu-link:hover svg{opacity:1}
+.menu-divider{height:1px;background:var(--border-light);margin:0 2.5rem}
+
+/* CATEGORY CARDS IN MENU */
+.cat-cards-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cat-card{position:relative;aspect-ratio:5/4;overflow:hidden;cursor:none;border:1px solid var(--border);transition:border-color 0.3s}
+.cat-card:hover{border-color:var(--gold)}
+.cat-img{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:52px;background:var(--cream);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+.cat-card:hover .cat-img{transform:scale(1.08)}
+.cat-img img{width:100%;height:100%;object-fit:cover;transition:all 0.5s;filter:grayscale(0.3)}
+.cat-card:hover .cat-img img{filter:grayscale(0)}
+.cat-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(250,248,243,0.98) 0%,rgba(250,248,243,0.5) 45%,transparent 100%)}
+.cat-info{position:absolute;bottom:0;left:0;right:0;padding:14px 16px;text-align:center}
+.cat-name{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--black);font-weight:700;margin-bottom:3px}
+.cat-sub{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* MENU BOTTOM */
+.menu-bottom{padding:2rem 2.5rem;margin-top:auto;border-top:1px solid var(--border-light)}
+.wa-strip{display:flex;align-items:center;gap:16px;padding:18px 22px;background:var(--forest);cursor:none;transition:background 0.3s;text-decoration:none}
+.wa-strip:hover{background:var(--black)}
+.wa-strip-text span{font-size:13px;font-weight:600;color:var(--white);letter-spacing:1px;display:block;text-transform:uppercase;font-family:'Space Mono',monospace;font-size:11px}
+.wa-strip-text small{font-size:11px;color:var(--gold);display:block;margin-top:4px;letter-spacing:2px}
+
+/* HERO */
+.hero{min-height:92vh;display:grid;grid-template-columns:1.4fr 0.6fr;position:relative;overflow:hidden;background:linear-gradient(75deg,var(--white) 55%,var(--forest) 100%)}
+.hero::after{content:'';position:absolute;top:0;bottom:0;left:58%;width:1px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);opacity:0.4;z-index:2}
+.hero-left{padding:7rem 4rem 5rem;display:flex;flex-direction:column;justify-content:center;position:relative;z-index:1;background:transparent}
+.hero-left::before{content:'';position:absolute;bottom:0;left:0;width:200px;height:200px;background:radial-gradient(circle,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none}
+
+/* HERO EYEBROW with gold line */
+.hero-eyebrow{display:flex;align-items:center;gap:16px;margin-bottom:2.5rem;opacity:0;animation:fadeUp 0.9s 0.1s forwards}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--gold)}
+.hero-eyebrow-txt{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);font-weight:700}
+
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(52px,7vw,96px);line-height:1.05;letter-spacing:-1px;color:var(--black);margin-bottom:1rem;font-weight:700;opacity:0;animation:fadeUp 0.9s 0.25s forwards}
+.hero-h1 em{color:var(--forest);font-style:italic;display:block;font-weight:400}
+.hero-h1 .gold-word{color:var(--gold)}
+
+.hero-rule{width:80px;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light),transparent);margin:2rem 0;opacity:0;animation:fadeUp 0.9s 0.4s forwards}
+
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--muted);line-height:1.8;max-width:400px;margin-bottom:3rem;opacity:0;animation:fadeUp 0.9s 0.5s forwards;font-weight:300;font-style:italic}
+
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s 0.65s forwards}
+.btn-royal{background:var(--black);color:var(--white);border:none;padding:18px 38px;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;cursor:none;transition:all 0.4s;font-family:'Space Mono',monospace;position:relative;overflow:hidden}
+.btn-royal::after{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1)}
+.btn-royal:hover::after{transform:translateX(0)}
+.btn-royal:hover{color:var(--black)}
+.btn-royal span{position:relative;z-index:1}
+.btn-outline{background:transparent;color:var(--black);border:1px solid var(--black);padding:18px 38px;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;cursor:none;transition:all 0.4s;font-family:'Space Mono',monospace}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* HERO RIGHT */
+.hero-right{background:transparent;display:flex;flex-direction:column;justify-content:center;padding:5rem 2.5rem;gap:14px;position:relative;z-index:1;overflow:hidden}
+.hero-right::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.12)' stroke-width='0.5'%3E%3Ccircle cx='50' cy='50' r='40'/%3E%3Ccircle cx='50' cy='50' r='25'/%3E%3Ccircle cx='50' cy='50' r='10'/%3E%3C/g%3E%3C/svg%3E");background-size:120px 120px;pointer-events:none}
+.hero-right-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;position:relative;z-index:1}
+.feat-card{background:rgba(250,248,243,0.07);border:1px solid rgba(201,168,76,0.25);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1.2rem;cursor:none;transition:all 0.4s;position:relative;z-index:1;backdrop-filter:blur(4px);opacity:0;transform:translateX(24px)}
+.feat-card:nth-child(3){animation:slideIn 0.8s 0.5s forwards}
+.feat-card:nth-child(4){animation:slideIn 0.8s 0.7s forwards}
+.feat-card:nth-child(5){animation:slideIn 0.8s 0.9s forwards}
+.feat-card:hover{background:rgba(201,168,76,0.1);border-color:rgba(201,168,76,0.55);transform:translateX(-6px)}
+.feat-img{width:56px;height:70px;flex-shrink:0;overflow:hidden;border:1px solid rgba(201,168,76,0.2)}
+.feat-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(0.4);transition:filter 0.4s}
+.feat-card:hover .feat-img img{filter:grayscale(0)}
+.feat-info{flex:1}
+.feat-brand{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:4px}
+.feat-name{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:rgba(250,248,243,0.9);margin-bottom:6px}
+.feat-price{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:var(--white)}
+.feat-badge{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border:1px solid var(--gold);color:var(--gold);white-space:nowrap}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--black);border-bottom:1px solid var(--black);padding:22px 0;background:var(--black)}
+.marquee-inner{display:flex;animation:marquee 28s linear infinite}
+.marquee-inner span{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:28px;letter-spacing:2px;color:var(--white);padding:0 2.5rem;white-space:nowrap}
+.marquee-inner span.dot{color:var(--gold);font-style:normal;font-size:20px}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* GOLD DIVIDER ORNAMENT */
+.ornament{text-align:center;padding:2rem 0;display:flex;align-items:center;gap:1.5rem;max-width:300px;margin:0 auto}
+.orn-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold))}
+.orn-line.rev{background:linear-gradient(to left,transparent,var(--gold))}
+.orn-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+
+/* CATEGORY STRIP */
+.cats-section{padding:5rem 3rem;max-width:1400px;margin:0 auto}
+.sec-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:3rem;border-bottom:1px solid var(--border-light);padding-bottom:1.5rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:34px;font-weight:400;color:var(--black)}.sec-link{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;cursor:none;text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:3px;transition:opacity 0.3s}
+.sec-link:hover{opacity:0.7}
+.cats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.cat-tile{position:relative;overflow:hidden;cursor:none;border:1px solid var(--border);transition:all 0.4s;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:3/4;padding:1.5rem 1rem}
+.cat-tile:hover{border-color:var(--gold);transform:translateY(-8px);box-shadow:0 16px 48px rgba(36,61,46,0.12)}
+.cat-tile::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--gold),var(--gold-light));transform:scaleX(0);transition:transform 0.4s;transform-origin:left}
+.cat-tile:hover::before{transform:scaleX(1)}
+.cat-emoji{font-size:36px;margin-bottom:1rem;transition:filter 0.4s;filter:grayscale(1)}
+.cat-tile:hover .cat-emoji{filter:grayscale(0)}
+.cat-tile-name{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--black);font-weight:700;text-align:center}
+.cat-tile.gold-tile{background:var(--black);border-color:var(--gold-dark)}
+.cat-tile.gold-tile .cat-tile-name{color:var(--gold)}
+.cat-tile.gold-tile:hover{background:#1e1a12}
+
+/* PRODUCTS */
+.products-section{padding:5rem 3rem;background:var(--cream);max-width:100%}
+.products-inner{max-width:1400px;margin:0 auto}
+.filters{display:flex;gap:10px;margin-bottom:3rem;flex-wrap:wrap;justify-content:center}
+.filter-btn{padding:10px 24px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:none;transition:all 0.3s}
+.filter-btn.active,.filter-btn:hover{background:var(--black);border-color:var(--black);color:var(--white)}
+.filter-btn.active{border-color:transparent}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:2.5rem 2rem}
+
+/* PRODUCT CARD */
+.product-card{background:transparent;cursor:none;transition:all 0.4s}
+.product-card:hover{transform:translateY(-10px)}
+.p-img-wrap{position:relative;overflow:hidden;border:1px solid var(--border);background:var(--white)}
+.p-img-wrap::after{content:'';position:absolute;inset:0;border:1px solid transparent;transition:border-color 0.4s;pointer-events:none}
+.product-card:hover .p-img-wrap::after{border-color:var(--gold)}
+.p-img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(0.6) contrast(0.95);transition:all 0.7s cubic-bezier(0.16,1,0.3,1);display:block}
+.product-card:hover .p-img{filter:grayscale(0) contrast(1);transform:scale(1.04)}
+.p-overlay{position:absolute;inset:0;background:rgba(24,20,16,0);transition:background 0.4s;display:flex;align-items:flex-end;padding:1.5rem}
+.product-card:hover .p-overlay{background:rgba(24,20,16,0.12)}
+.p-add-btn{opacity:0;transform:translateY(12px);transition:all 0.4s;background:var(--black);color:var(--white);border:none;padding:14px;font-size:9px;letter-spacing:4px;text-transform:uppercase;font-weight:700;cursor:none;font-family:'Space Mono',monospace;width:100%}
+.p-add-btn:hover{background:var(--forest)}
+.product-card:hover .p-add-btn{opacity:1;transform:translateY(0)}
+.p-badge{position:absolute;top:14px;left:14px;padding:5px 12px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;font-weight:700;text-transform:uppercase;border:1px solid;z-index:2}
+.p-badge.new{background:var(--white);color:var(--forest);border-color:var(--forest)}
+.p-badge.hot{background:var(--white);color:var(--gold-dark);border-color:var(--gold)}
+.p-badge.sale{background:var(--white);color:#8b3a2a;border-color:#c4644e;right:14px;left:auto}
+.p-info{padding:1.4rem 0 0}
+.p-brand{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);font-weight:700;margin-bottom:6px}
+.p-name{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--black);margin-bottom:12px;font-style:italic;line-height:1.3}
+.p-row{display:flex;align-items:center;justify-content:space-between}
+.p-price{font-family:'Montserrat',sans-serif;font-weight:600;font-size:15px;color:var(--black)}
+.p-price small{font-size:10px;color:var(--muted);font-weight:400;letter-spacing:1px;margin-right:3px}
+
+/* REVIEWS */
+.reviews-section{padding:6rem 3rem;background:var(--white);max-width:100%}
+.reviews-inner{max-width:1300px;margin:0 auto}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:3rem}
+.review-card{padding:2.5rem;border:1px solid var(--border);position:relative;transition:all 0.4s;background:var(--white)}
+.review-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--gold),var(--gold-light));transform:scaleX(0);transform-origin:left;transition:transform 0.4s}
+.review-card:hover::before{transform:scaleX(1)}
+.review-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(36,61,46,0.08)}
+.stars{color:var(--gold);font-size:12px;letter-spacing:3px;margin-bottom:1.5rem}
+.review-quote{font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.9;color:var(--text);margin-bottom:2rem;font-style:italic;font-weight:300}
+.reviewer{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--black);font-weight:700}
+.verified{color:var(--forest);margin-left:8px;font-size:9px}
+.review-open-quote{position:absolute;top:2rem;right:2rem;font-family:'Playfair Display',serif;font-size:80px;color:var(--gold);opacity:0.08;line-height:1;pointer-events:none}
+
+/* ABOUT */
+.about-section{background:var(--forest);padding:8rem 3rem;position:relative;overflow:hidden}
+.about-section::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(201,168,76,0.08)' stroke-width='0.8'%3E%3Ccircle cx='60' cy='60' r='50'/%3E%3Ccircle cx='60' cy='60' r='32'/%3E%3Ccircle cx='60' cy='60' r='14'/%3E%3Cline x1='10' y1='60' x2='110' y2='60'/%3E%3Cline x1='60' y1='10' x2='60' y2='110'/%3E%3C/g%3E%3C/svg%3E");background-size:120px 120px;pointer-events:none}
+.about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center;position:relative;z-index:1}
+.about-eyebrow{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;gap:16px}
+.about-eyebrow::before{content:'';width:24px;height:1px;background:var(--gold)}
+.about-title{font-family:'Playfair Display',serif;font-size:clamp(38px,4.5vw,58px);line-height:1.1;color:var(--white);margin-bottom:2.5rem;font-weight:400}
+.about-title em{color:var(--gold);font-style:italic;display:block}
+.about-body{font-family:'Cormorant Garamond',serif;font-size:17px;line-height:2;color:rgba(250,248,243,0.75);margin-bottom:1.5rem;font-weight:300}
+.about-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:2.5rem}
+.a-tag{padding:8px 20px;border:1px solid rgba(201,168,76,0.3);font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(250,248,243,0.7);transition:all 0.3s}
+.a-tag:hover{border-color:var(--gold);color:var(--gold)}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.15)}
+.stat-box{padding:3.5rem 2.5rem;background:var(--forest);transition:background 0.4s;text-align:center;cursor:default}
+.stat-box:hover{background:rgba(201,168,76,0.06)}
+.stat-num{font-family:'Playfair Display',serif;font-size:54px;line-height:1;color:var(--gold);margin-bottom:10px}
+.stat-num em{font-family:'Cormorant Garamond',serif;font-size:36px;color:rgba(250,248,243,0.6);font-style:normal}
+.stat-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(250,248,243,0.5)}
+
+/* FOOTER */
+footer{background:var(--black);padding:6rem 3rem 3rem;position:relative}
+footer::before{content:'';position:absolute;top:0;left:3rem;right:3rem;height:1px;background:linear-gradient(to right,transparent,var(--gold-dark),transparent)}
+.footer-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:5rem;margin-bottom:5rem}
+.footer-brand{margin-bottom:1.5rem}
+.footer-logo .logo-rylo{color:var(--white);font-size:26px}
+.footer-desc{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(138,130,120,0.9);line-height:1.9;max-width:260px;margin-bottom:2rem;font-style:italic;font-weight:300}
+.footer-social{display:flex;gap:10px}
+.soc{width:38px;height:38px;border:1px solid #2a2620;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;transition:all 0.4s;font-size:14px;color:var(--muted)}
+.soc:hover{border-color:var(--gold);color:var(--gold)}
+.f-col h4{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:5px;text-transform:uppercase;font-weight:700;color:var(--white);margin-bottom:2rem}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.f-col li a{font-family:'Cormorant Garamond',serif;font-size:15px;color:#55504a;text-decoration:none;transition:color 0.3s;cursor:none;font-style:italic;font-weight:300}
+.f-col li a:hover{color:var(--gold)}
+.footer-bottom{max-width:1400px;margin:0 auto;border-top:1px solid #1e1a16;padding-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-family:'Space Mono',monospace;font-size:9px;color:#3d3830;letter-spacing:3px;text-transform:uppercase}
+
+/* CART */
+.cart-overlay{position:fixed;inset:0;background:rgba(24,20,16,0.65);backdrop-filter:blur(6px);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.4s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-panel{position:fixed;right:0;top:0;bottom:0;width:min(500px,100vw);background:var(--white);z-index:301;transform:translateX(100%);transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column}
+.cart-panel.open{transform:translateX(0)}
+.cart-head{padding:2rem 2.5rem;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between}
+.cart-head h2{font-family:'Playfair Display',serif;font-size:26px;font-weight:400;letter-spacing:1px}
+.cart-body{flex:1;overflow-y:auto;padding:2rem 2.5rem}
+.c-item{display:flex;gap:18px;padding:1.5rem 0;border-bottom:1px solid var(--border-light)}
+.c-img{width:76px;height:96px;flex-shrink:0;overflow:hidden;border:1px solid var(--border);background:var(--cream)}
+.c-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(0.3);transition:0.4s}
+.c-item:hover .c-img img{filter:grayscale(0)}
+.c-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+.c-brand{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dark);font-weight:700;margin-bottom:6px}
+.c-name{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--black);margin-bottom:8px}
+.c-price{font-family:'Montserrat',monospace;font-size:12px;font-weight:600;color:var(--text)}
+.c-rm{background:none;border:none;cursor:none;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color 0.3s}
+.c-rm:hover{color:var(--gold-dark)}
+.cart-foot{padding:2rem 2.5rem;border-top:1px solid var(--border-light);background:var(--cream)}
+.cart-total-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem}
+.cart-total-row span:first-child{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.cart-total-row span:last-child{font-family:'Playfair Display',serif;font-size:22px;font-weight:400}
+.wa-order-btn{width:100%;background:var(--forest);color:var(--white);border:none;padding:18px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;cursor:none;display:flex;align-items:center;justify-content:center;gap:12px;transition:all 0.4s}
+.wa-order-btn:hover{background:var(--black)}
+.empty-cart{text-align:center;padding:5rem 0;color:var(--muted)}
+.empty-cart p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;margin-top:12px}
+
+/* TOAST */
+.toast{position:fixed;bottom:2.5rem;left:50%;transform:translateX(-50%) translateY(60px);background:var(--forest);color:var(--white);padding:14px 32px;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;z-index:500;transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);white-space:nowrap;border-left:3px solid var(--gold)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
+
+@media(max-width:1000px){
+  .hero{grid-template-columns:1fr;min-height:auto;background:linear-gradient(170deg,var(--white) 50%,var(--forest) 100%)}
+  .hero::after{display:none}
+  .hero-left{padding:5rem 2rem 2rem;min-height:auto}
+  .hero-right{padding:2rem;min-height:auto}
+  .cats-grid{grid-template-columns:repeat(3,1fr)}
+  .about-inner{grid-template-columns:1fr;gap:4rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:3rem}
+  .cats-section,.products-inner,.reviews-inner{padding:0 1.5rem}
+  nav{padding:0 1.5rem}
+}
+
+@media(max-width:600px){
+  /* NAV */
+  nav{height:64px;padding:0 1rem}
+  .logo-rylo{font-size:22px;letter-spacing:4px}
+  .logo-sub{font-size:6px;letter-spacing:4px}
+  .cart-pill{padding:8px 14px;font-size:9px}
+  .menu-trigger{font-size:10px;gap:6px}
+
+  /* HERO — single unified section, compact */
+  .hero{
+    grid-template-columns:1fr;
+    min-height:100svh;
+    background:linear-gradient(160deg,var(--white) 45%,var(--forest) 100%);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .hero-left{
+    padding:3rem 1.5rem 1.5rem;
+    min-height:auto;
+    flex:0 0 auto;
+  }
+  .hero-h1{font-size:52px;line-height:1}
+  .hero-eyebrow{margin-bottom:1.2rem}
+  .hero-rule{margin:1.2rem 0;width:60px}
+  .hero-sub{font-size:15px;margin-bottom:1.8rem}
+  .hero-btns{gap:10px}
+  .btn-royal,.btn-outline{padding:13px 24px;font-size:9px;letter-spacing:3px}
+
+  /* HERO RIGHT — compact featured cards */
+  .hero-right{
+    padding:1rem 1.5rem 2.5rem;
+    gap:10px;
+    flex:0 0 auto;
+  }
+  .hero-right-label{font-size:8px;margin-bottom:4px}
+  .feat-card{padding:0.9rem 1rem}
+  .feat-img{width:44px;height:55px}
+  .feat-name{font-size:12px}
+  .feat-price{font-size:11px}
+  .feat-badge{font-size:7px;padding:2px 6px}
+
+  /* MARQUEE */
+  .marquee-wrap{padding:10px 0}
+  .marquee-inner span{font-size:20px;padding:0 1.5rem}
+
+  /* CATEGORIES — compact 3x2 grid */
+  .cats-section{padding:2.5rem 1.5rem}
+  .cats-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  .cat-tile{
+    aspect-ratio:1/1;
+    padding:1rem 0.5rem;
+  }
+  .cat-emoji{font-size:26px;margin-bottom:0.5rem}
+  .cat-tile-name{font-size:8px;letter-spacing:2px}
+  .sec-title{font-size:26px}
+  .sec-header{margin-bottom:1.5rem;padding-bottom:1rem}
+
+  /* PRODUCTS — 2 per row like Amazon */
+  .products-section{padding:2.5rem 1rem}
+  .products-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+  .p-img-wrap{}
+  .p-img{aspect-ratio:3/4}
+  .p-info{padding:0.8rem 0 0}
+  .p-brand{font-size:8px;letter-spacing:2px}
+  .p-name{font-size:13px;margin-bottom:6px}
+  .p-price{font-size:13px}
+  .p-add-btn{font-size:8px;letter-spacing:2px;padding:11px}
+  .p-badge{font-size:7px;padding:3px 8px;top:8px;left:8px}
+
+  /* FILTERS — scrollable row */
+  .filters{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:6px;
+    margin-bottom:1.5rem;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .filters::-webkit-scrollbar{display:none}
+  .filter-btn{white-space:nowrap;padding:8px 14px;font-size:8px;flex-shrink:0}
+
+  /* REVIEWS */
+  .reviews-section{padding:3rem 1.5rem}
+  .reviews-grid{grid-template-columns:1fr;gap:1.2rem}
+  .review-card{padding:1.8rem}
+  .review-quote{font-size:14px}
+
+  /* ABOUT */
+  .about-section{padding:4rem 1.5rem}
+  .about-inner{grid-template-columns:1fr;gap:3rem;padding:0}
+  .about-title{font-size:36px}
+  .about-body{font-size:15px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-box{padding:2rem 1.5rem}
+  .stat-num{font-size:42px}
+
+  /* FOOTER */
+  .footer-grid{grid-template-columns:1fr;gap:2.5rem}
+  footer{padding:3.5rem 1.5rem 2rem}
+  .footer-bottom{flex-direction:column;text-align:center;gap:0.5rem}
+
+  /* CART PANEL */
+  .cart-panel{width:100vw}
+  .cart-head{padding:1.5rem}
+  .cart-body{padding:1rem 1.5rem}
+  .cart-foot{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="adinkra-bg"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="announce">Free delivery on orders above <em>GHS 500</em> &nbsp;·&nbsp; WhatsApp: <em>0531 656 339</em></div>
+
+<nav id="mainNav">
+  <div class="logo-wrap" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <div class="logo-rylo">
+      <svg class="crown-svg" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+      RYLO
+    </div>
+    <div class="logo-sub">Collection</div>
+  </div>
+  <div class="nav-right">
+    <button class="menu-trigger" onclick="openMenu()">
+      <div class="bar"><span></span><span></span><span style="width:14px"></span></div>
+      Menu
+    </button>
+    <button class="cart-pill" onclick="toggleCart()">
+      Bag <span class="cart-bubble" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MEGA MENU -->
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="mega-menu" id="megaMenu">
+  <div class="menu-head">
+    <div class="logo-wrap">
+      <div class="logo-rylo" style="font-size:24px">
+        <svg class="crown-svg" viewBox="0 0 24 24" style="width:18px;height:18px;top:-13px"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+        RYLO
+      </div>
+      <div class="logo-sub">Collection</div>
+    </div>
+    <button class="menu-close" onclick="closeMenu()">✕</button>
+  </div>
+  <div class="menu-sec">
+    <p class="menu-lbl">Navigate</p>
+    <div class="menu-links">
+      <a class="menu-link" onclick="filterAnd('all');closeMenu()">All Pieces <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a class="menu-link" onclick="filterAnd('new');closeMenu()">New Arrivals <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+      <a class="menu-link" onclick="filterAnd('sale');closeMenu()">Sale Archive <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg></a>
+    </div>
+  </div>
+  <div class="menu-divider"></div>
+  <div class="menu-sec">
+    <p class="menu-lbl">Categories</p>
+    <div class="cat-cards-grid">
+      <div class="cat-card" onclick="filterAnd('sneakers');closeMenu()">
+        <div class="cat-img"><img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=400&q=80" alt="Sneakers"></div>
+        <div class="cat-grad"></div>
+        <div class="cat-info"><div class="cat-name">Sneakers</div><div class="cat-sub">Jordan, NB & more</div></div>
+      </div>
+      <div class="cat-card" onclick="filterAnd('tops');closeMenu()">
+        <div class="cat-img"><img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=400&q=80" alt="Tops"></div>
+        <div class="cat-grad"></div>
+        <div class="cat-info"><div class="cat-name">Hoodies & Tops</div><div class="cat-sub">Gucci, Palm Angels</div></div>
+      </div>
+      <div class="cat-card" onclick="filterAnd('jeans');closeMenu()">
+        <div class="cat-img"><img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=400&q=80" alt="Denim"></div>
+        <div class="cat-grad"></div>
+        <div class="cat-info"><div class="cat-name">Denim & Jeans</div><div class="cat-sub">Amiri, True Religion</div></div>
+      </div>
+      <div class="cat-card" onclick="filterAnd('accessories');closeMenu()">
+        <div class="cat-img"><img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=400&q=80" alt="Accessories"></div>
+        <div class="cat-grad"></div>
+        <div class="cat-info"><div class="cat-name">Accessories</div><div class="cat-sub">Caps, belts & more</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-divider"></div>
+  <div class="menu-bottom">
+    <a class="wa-strip" onclick="openWA()">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="#C9A84C"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <div class="wa-strip-text"><span>Chat with a Stylist</span><small>0531 656 339 · Kumasi</small></div>
+    </a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-txt">New Collection · 2025</span>
+    </div>
+    <h1 class="hero-h1">
+      DRESS<br>
+      <em>Different.</em>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">Premium streetwear and sneakers for those who move differently. Authentic styling for the modern culture.</p>
+    <div class="hero-btns">
+      <button class="btn-royal" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})"><span>Explore the Atelier</span></button>
+      <button class="btn-outline" onclick="openWA()">Inquire</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-label">Curated · 2025</div>
+    <div class="feat-card" onclick="addToCart(1)">
+      <div class="feat-img"><img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=200&q=80" alt="AJ1"></div>
+      <div class="feat-info">
+        <div class="feat-brand">Nike</div>
+        <div class="feat-name">Air Jordan 1 High OG</div>
+        <div class="feat-price">GHS 1,800</div>
+      </div>
+      <span class="feat-badge">Hot</span>
+    </div>
+    <div class="feat-card" onclick="addToCart(5)">
+      <div class="feat-img"><img src="https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=200&q=80" alt="NB550"></div>
+      <div class="feat-info">
+        <div class="feat-brand">New Balance</div>
+        <div class="feat-name">550 White Green</div>
+        <div class="feat-price">GHS 1,200</div>
+      </div>
+      <span class="feat-badge">New</span>
+    </div>
+    <div class="feat-card" onclick="addToCart(2)">
+      <div class="feat-img"><img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=200&q=80" alt="PA"></div>
+      <div class="feat-info">
+        <div class="feat-brand">Palm Angels</div>
+        <div class="feat-name">Classic Track Jacket</div>
+        <div class="feat-price">GHS 2,800</div>
+      </div>
+      <span class="feat-badge">New</span>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <span>Palm Angels</span><span class="dot">✦</span><span>Dior</span><span class="dot">✦</span><span>Gucci</span><span class="dot">✦</span><span>Amiri</span><span class="dot">✦</span><span>Off-White</span><span class="dot">✦</span><span>Fear of God</span><span class="dot">✦</span><span>Jordan Brand</span><span class="dot">✦</span><span>Rylo Collections</span><span class="dot">✦</span>
+    <span>Palm Angels</span><span class="dot">✦</span><span>Dior</span><span class="dot">✦</span><span>Gucci</span><span class="dot">✦</span><span>Amiri</span><span class="dot">✦</span><span>Off-White</span><span class="dot">✦</span><span>Fear of God</span><span class="dot">✦</span><span>Jordan Brand</span><span class="dot">✦</span><span>Rylo Collections</span><span class="dot">✦</span>
+  </div>
+</div>
+
+
+
+<!-- CATEGORIES -->
+<div class="cats-section">
+  <div class="sec-header reveal">
+    <h2 class="sec-title">Shop by Meaning</h2>
+    <a class="sec-link" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">View the Archive →</a>
+  </div>
+  <div class="cats-grid">
+    <div class="cat-tile reveal" onclick="filterAnd('new')">
+      <div class="cat-emoji">𓇚</div>
+      <div class="cat-tile-name">New In</div>
+    </div>
+    <div class="cat-tile reveal reveal-delay-1" onclick="filterAnd('sneakers')">
+      <div class="cat-emoji">👟</div>
+      <div class="cat-tile-name">Sneakers</div>
+    </div>
+    <div class="cat-tile reveal reveal-delay-1" onclick="filterAnd('tops')">
+      <div class="cat-emoji">👕</div>
+      <div class="cat-tile-name">Tops</div>
+    </div>
+    <div class="cat-tile reveal reveal-delay-2" onclick="filterAnd('jeans')">
+      <div class="cat-emoji">👖</div>
+      <div class="cat-tile-name">Denim</div>
+    </div>
+    <div class="cat-tile reveal reveal-delay-2" onclick="filterAnd('accessories')">
+      <div class="cat-emoji">🧢</div>
+      <div class="cat-tile-name">Accessories</div>
+    </div>
+    <div class="cat-tile gold-tile reveal reveal-delay-3" onclick="filterAnd('sale')">
+      <div class="cat-emoji">𓋹</div>
+      <div class="cat-tile-name">Sale Archive</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="products-section" id="shop">
+  <div class="products-inner">
+    <div class="sec-header reveal">
+      <h2 class="sec-title">The Lookbook</h2>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterAnd('all',this)">All Pieces</button>
+      <button class="filter-btn" onclick="filterAnd('new',this)">New Arrivals</button>
+      <button class="filter-btn" onclick="filterAnd('sneakers',this)">Sneakers</button>
+      <button class="filter-btn" onclick="filterAnd('tops',this)">Tops & Hoodies</button>
+      <button class="filter-btn" onclick="filterAnd('jeans',this)">Denim</button>
+      <button class="filter-btn" onclick="filterAnd('accessories',this)">Accessories</button>
+      <button class="filter-btn" onclick="filterAnd('sale',this)">Sale</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="reviews-section">
+  <div class="reviews-inner">
+    <div class="sec-header reveal">
+      <h2 class="sec-title">Word on the Street</h2>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-open-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">The Jordan 1s came in pristine condition. Exactly as described and the delivery straight to KNUST campus was incredibly fast. Highly recommend.</p>
+        <p class="reviewer">Kwame A. <span class="verified">✓ Verified</span></p>
+      </div>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-open-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">Finding authentic Palm Angels in Kumasi used to be impossible. Rylo Collection changed the game. The quality and packaging are elite.</p>
+        <p class="reviewer">Nana Yaa <span class="verified">✓ Verified</span></p>
+      </div>
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-open-quote">"</div>
+        <div class="stars">★★★★★</div>
+        <p class="review-quote">Customer service is top tier. They helped me pick the right size for my Dior cap via WhatsApp and it fits perfectly. Will shop again.</p>
+        <p class="reviewer">Emmanuel O. <span class="verified">✓ Verified</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section">
+  <div class="about-inner">
+    <div>
+      <p class="about-eyebrow">Heritage Meets Modernity</p>
+      <h2 class="about-title">The Drip<em>Is The Culture.</em></h2>
+      <p class="about-body">RYLO Collections is Kumasi's go-to plug for authentic premium streetwear. We blend the bold gold of our Ashanti ancestors with the sharp lines of modern global streetwear.</p>
+      <p class="about-body">From head-to-toe fits to the latest sneaker drops, every piece is curated for the culture. No knock-offs. No compromises. Pure elegance.</p>
+      <div class="about-tags">
+        <span class="a-tag">100% Authentic</span>
+        <span class="a-tag">Premium Brands</span>
+        <span class="a-tag">Kumasi Based</span>
+        <span class="a-tag">White-Glove Delivery</span>
+        <span class="a-tag">Ashanti Heritage</span>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-num">500<em>+</em></div><div class="stat-lbl">Clients</div></div>
+      <div class="stat-box"><div class="stat-num">50<em>+</em></div><div class="stat-lbl">Luxury Brands</div></div>
+      <div class="stat-box"><div class="stat-num">100<em>%</em></div><div class="stat-lbl">Authentic</div></div>
+      <div class="stat-box"><div class="stat-num">GH<em>🇬🇭</em></div><div class="stat-lbl">Nationwide</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <div class="logo-wrap footer-logo">
+          <div class="logo-rylo">
+            <svg class="crown-svg" viewBox="0 0 24 24"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+            RYLO
+          </div>
+          <div class="logo-sub">Collection</div>
+        </div>
+      </div>
+      <p class="footer-desc">Premium streetwear & sneakers. Born in the Garden City, delivering heat nationwide. Rooted in Ashanti gold.</p>
+      <div class="footer-social">
+        <div class="soc" onclick="openWA()" title="WhatsApp">💬</div>
+        <div class="soc" title="Instagram">📸</div>
+        <div class="soc" title="TikTok">🎵</div>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>The Collection</h4>
+      <ul>
+        <li><a onclick="filterAnd('new')">New Arrivals</a></li>
+        <li><a onclick="filterAnd('sneakers')">Sneakers</a></li>
+        <li><a onclick="filterAnd('tops')">Tops & Hoodies</a></li>
+        <li><a onclick="filterAnd('jeans')">Denim</a></li>
+        <li><a onclick="filterAnd('accessories')">Accessories</a></li>
+        <li><a onclick="filterAnd('sale')">Sale Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Maison Info</h4>
+      <ul>
+        <li><a onclick="document.querySelector('.about-section').scrollIntoView({behavior:'smooth'})">Our Heritage</a></li>
+        <li><a onclick="openWA()">Concierge</a></li>
+        <li><a>Size Guide</a></li>
+        <li><a>Returns Policy</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a onclick="openWA()">WhatsApp Us</a></li>
+        <li><a>0531 656 339</a></li>
+        <li><a>Kumasi, Ghana 🇬🇭</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 RYLO Collections · Crafted in Oseikrom</p>
+    <p>Adinkra Symbols · Royal Heritage · Modern Spirit</p>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h2>Your Selection</h2>
+    <button class="menu-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-total-row"><span>Total</span><span id="cartTotal">GHS 0</span></div>
+    <button class="wa-order-btn" onclick="orderWA()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Order with Concierge
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// CURSOR
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';
+  ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
+});
+document.querySelectorAll('button,a,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='20px';cursor.style.height='20px';ring.style.width='52px';ring.style.height='52px';cursor.style.background='var(--forest)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';cursor.style.background='var(--gold)'});
+});
+
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled',window.scrollY>80);
+});
+
+// SCROLL REVEAL
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// PRODUCTS
+const products=[
+  
+];
+
+let cart=[];
+
+function renderProducts(f){
+  let list=products;
+  if(f==='new') list=products.filter(p=>p.badge==='new');
+  else if(f==='sale') list=products.filter(p=>p.sale);
+  else if(f!=='all') list=products.filter(p=>p.cat===f);
+  const grid=document.getElementById('productsGrid');
+  grid.innerHTML=list.map(p=>`
+    <div class="product-card">
+      <div class="p-img-wrap">
+        ${p.badge?`<div class="p-badge ${p.badge}">${p.badge==='new'?'NEW':'HOT'}</div>`:''}
+        ${p.sale?`<div class="p-badge sale">Archive</div>`:''}
+        <img class="p-img" src="${p.img}" alt="${p.name}" loading="lazy">
+        <div class="p-overlay">
+          <button class="p-add-btn" onclick="addToCart(${p.id});event.stopPropagation()">Add to Selection</button>
+        </div>
+      </div>
+      <div class="p-info">
+        <div class="p-brand">${p.brand}</div>
+        <div class="p-name">${p.name}</div>
+        <div class="p-row">
+          <div class="p-price"><small>GHS </small>${p.price.toLocaleString()}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterAnd(f,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  renderProducts(f);
+  document.getElementById('shop').scrollIntoView({behavior:'smooth'});
+}
+
+function addToCart(id){
+  const p=products.find(x=>x.id===id);if(!p)return;
+  const ex=cart.find(x=>x.id===id);
+  if(ex)ex.qty++;else cart.push({...p,qty:1});
+  updateCart();showToast('Added to selection ✓');
+}
+
+function removeFromCart(id){cart=cart.filter(x=>x.id!==id);updateCart();}
+
+function updateCart(){
+  const total=cart.reduce((s,x)=>s+x.qty,0);
+  document.getElementById('cartCount').textContent=total;
+  const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
+  if(!cart.length){
+    body.innerHTML='<div class="empty-cart"><span style="font-size:40px;filter:grayscale(1)">🛍️</span><p>Your selection is empty</p></div>';
+    foot.style.display='none';return;
+  }
+  foot.style.display='block';
+  body.innerHTML=cart.map(x=>`
+    <div class="c-item">
+      <div class="c-img"><img src="${x.img}" alt="${x.name}"></div>
+      <div class="c-info">
+        <div class="c-brand">${x.brand}</div>
+        <div class="c-name">${x.name}</div>
+        <div class="c-price">GHS ${x.price.toLocaleString()} × ${x.qty}</div>
+      </div>
+      <button class="c-rm" onclick="removeFromCart(${x.id})">Remove</button>
+    </div>`).join('');
+  document.getElementById('cartTotal').textContent='GHS '+cart.reduce((s,x)=>s+(x.price*x.qty),0).toLocaleString();
+}
+
+function toggleCart(){
+  document.getElementById('cartPanel').classList.toggle('open');
+  document.getElementById('cartOverlay').classList.toggle('open');
+}
+
+function openMenu(){
+  document.getElementById('megaMenu').classList.add('open');
+  document.getElementById('menuOverlay').classList.add('open');
+}
+function closeMenu(){
+  document.getElementById('megaMenu').classList.remove('open');
+  document.getElementById('menuOverlay').classList.remove('open');
+}
+function openWA(){window.open('https://wa.me/233531656339','_blank');}
+function orderWA(){
+  if(!cart.length)return;
+  const items=cart.map(x=>`• ${x.brand} ${x.name} ×${x.qty} = GHS ${(x.price*x.qty).toLocaleString()}`).join('\n');
+  const tot=cart.reduce((s,x)=>s+(x.price*x.qty),0);
+  const msg=encodeURIComponent(`Hi RYLO Collections! I'd like to order:\n\n${items}\n\nTotal: GHS ${tot.toLocaleString()}\n\nPlease confirm availability. Thank you!`);
+  window.open(`https://wa.me/233531656339?text=${msg}`,'_blank');
+}
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+renderProducts('all');
+</script>
+</body><script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
+</html>
