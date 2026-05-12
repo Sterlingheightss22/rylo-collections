@@ -11,7 +11,10 @@ collections:
     label: "Products"
     folder: "_products"
     create: true
+    extension: "md"
+    format: "frontmatter"
     slug: "{{slug}}"
+    identifier_field: "name"
     fields:
       - {label: "Brand", name: "brand", widget: "string"}
       - {label: "Product Name", name: "name", widget: "string"}
@@ -20,3 +23,4 @@ collections:
       - {label: "Photo", name: "image", widget: "image"}
       - {label: "Badge", name: "badge", widget: "select", options: ["", "new", "hot"], default: ""}
       - {label: "On Sale?", name: "sale", widget: "boolean", default: false}
+      - {label: "Description", name: "body", widget: "markdown", required: false}
