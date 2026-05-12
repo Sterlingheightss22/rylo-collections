@@ -1,3 +1,7 @@
+---
+layout: null
+permalink: /index.html
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -776,18 +780,18 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 // PRODUCTS
 const products=[
-  {id:1,brand:"Nike",name:"Air Jordan 1 High OG",price:1800,cat:"sneakers",img:"https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=500&q=80",badge:"hot",sale:false},
-  {id:2,brand:"Palm Angels",name:"Classic Track Jacket",price:2800,cat:"tops",img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=500&q=80",badge:"new",sale:false},
-  {id:3,brand:"Gucci",name:"GG Logo Hoodie",price:3500,cat:"tops",img:"https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=500&q=80",badge:"new",sale:false},
-  {id:4,brand:"Amiri",name:"MX1 Distressed Jeans",price:2200,cat:"jeans",img:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=500&q=80",badge:"",sale:false},
-  {id:5,brand:"New Balance",name:"550 White Green",price:1200,cat:"sneakers",img:"https://images.unsplash.com/photo-1539185441755-769473a23570?auto=format&fit=crop&w=500&q=80",badge:"hot",sale:false},
-  {id:6,brand:"Dior",name:"Oblique Cap",price:950,cat:"accessories",img:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=500&q=80",badge:"new",sale:false},
-  {id:7,brand:"Fear of God",name:"Essentials Tee",price:890,cat:"tops",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=500&q=80",badge:"",sale:true},
-  {id:8,brand:"Off-White",name:"Industrial Belt",price:750,cat:"accessories",img:"https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=500&q=80",badge:"",sale:true},
-  {id:9,brand:"Travis Scott",name:"Cactus Jack Hoodie",price:2100,cat:"tops",img:"https://images.unsplash.com/photo-1608234808654-2a8875faa7fd?auto=format&fit=crop&w=500&q=80",badge:"hot",sale:false},
-  {id:10,brand:"Jordan Brand",name:"Jordan 4 Retro",price:2400,cat:"sneakers",img:"https://images.unsplash.com/photo-1608231387042-66d1773070a5?auto=format&fit=crop&w=500&q=80",badge:"new",sale:false},
-  {id:11,brand:"True Religion",name:"Ricky Super T Jeans",price:1100,cat:"jeans",img:"https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?auto=format&fit=crop&w=500&q=80",badge:"",sale:true},
-  {id:12,brand:"Rhude",name:"McLaren Shorts",price:1650,cat:"accessories",img:"https://images.unsplash.com/photo-1591195853828-11db59a44f6b?auto=format&fit=crop&w=500&q=80",badge:"hot",sale:false},
+  {% for product in collections.products %}
+  {
+    id: "{{ product.fileSlug }}",
+    brand: "{{ product.data.brand }}",
+    name: "{{ product.data.name }}",
+    price: {{ product.data.price }},
+    cat: "{{ product.data.category }}",
+    img: "{{ product.data.image }}",
+    badge: "{{ product.data.badge }}",
+    sale: {{ product.data.sale | default(false) }}
+  }{% if not loop.last %},{% endif %}
+  {% endfor %}
 ];
 
 let cart=[];
