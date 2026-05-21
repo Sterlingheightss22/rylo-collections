@@ -3,7 +3,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images");
 
   eleventyConfig.addCollection("products", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("_products/*.md");
+    return collectionApi.getFilteredByGlob("./_products/*.md");
   });
 
   return {

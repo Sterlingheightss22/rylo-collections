@@ -809,7 +809,7 @@ function renderProducts(f){
         ${p.sale?`<div class="p-badge sale">Archive</div>`:''}
         <img class="p-img" src="${p.img}" alt="${p.name}" loading="lazy">
         <div class="p-overlay">
-          <button class="p-add-btn" onclick="addToCart(${p.id});event.stopPropagation()">Add to Selection</button>
+          <button class="p-add-btn" onclick="addToCart('${p.id}');event.stopPropagation()">Add to Selection</button>
         </div>
       </div>
       <div class="p-info">
@@ -855,7 +855,7 @@ function updateCart(){
         <div class="c-name">${x.name}</div>
         <div class="c-price">GHS ${x.price.toLocaleString()} × ${x.qty}</div>
       </div>
-      <button class="c-rm" onclick="removeFromCart(${x.id})">Remove</button>
+      <button class="c-rm" onclick="removeFromCart('${x.id}')">Remove</button>
     </div>`).join('');
   document.getElementById('cartTotal').textContent='GHS '+cart.reduce((s,x)=>s+(x.price*x.qty),0).toLocaleString();
 }
